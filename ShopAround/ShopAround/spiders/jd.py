@@ -1,22 +1,41 @@
 # -*- coding: utf-8 -*-
 import scrapy
-from ShopAround.items import ShoparoundItem
+from ShopAround.items import JdItem
+
 
 class JdSpider(scrapy.Spider):
     name = 'jd'
-    allowed_domains = ['jd.com']
-    # serach_name = input('你输入想要查询的商品名称: ')
-    # for page in range(1, 3):
-    #     page = 1 + (page-1)*2
-    #     start_urls = [f'https://search.jd.com/Search?keyword={serach_name}&enc=utf-8&page={page}']
-    start_urls = ['https://search.jd.com/Search?keyword=手机&enc=utf-8&page=13']
-
+    allowed_domains = ['search.jd.com/']
+    search_name = input('你输入想要查询的京东商品名称: ')
+    pages = int(input('你输入想要爬取京东的商品页数: '))
+    if pages == 1:
+        start_urls = [f'https://search.jd.com/Search?keyword={search_name}&enc=utf-8&page=1']
+    else:
+        for page in range(1, pages):
+            page = 1 + (page - 1) * 2
+            start_urls = [f'https://search.jd.com/Search?keyword={search_name}&enc=utf-8&page={page}']
     def parse(self, response):
-        item = ShoparoundItem()
-        item['store_names'] = response.xpath('//li[@class="gl-item"]/div/div[@class="p-shop"]/span/a/@title').getall()
-        item['shop_names'] = response.xpath('//li[@class="gl-item"]/div/div[@class="p-name p-name-type-2"]/a/em/text()').getall()
-        item['sale_volumes'] = response.xpath('//li[@class="gl-item"]/div/div[@class="p-commit"]/strong/a/text()').getall()
-        item['prices'] = response.xpath('//li[@class="gl-item"]/div/div[@class="p-price"]/strong/i/text()').getall()
-        item['shop_urls'] = response.xpath('//li[@class="gl-item"]/div/div[@class="p-img"]/a/img/@src').getall()
-        item['pic_urls'] = response.xpath('//li[@class="gl-item"]/div/div[@class="p-img"]/a/@href').getall()
-        yield item
+        search_name = []
+        pic_urls_s = []
+        shop_urls_s = []
+        jd_item = JdItem()
+        jd_item['store_names'] = response.xpath('//li[@class="gl-item"]/div/div[@class="p-shop"]/span/a/@title').getall()
+        jd_item['shop_names'] = response.xpath(
+            '//li[@class="gl-item"]/div/div[@class="p-name p-name-type-2"]/a/em/text()').getall()
+        jd_item['prices'] = response.xpath('//li[@class="gl-item"]/div/div[@class="p-price"]/strong/i/text()').getall()
+        shop_urls = response.xpath('//li[@class="gl-item"]/div/div[@class="p-img"]/a/@href').getall()
+        for i in shop_urls:
+            if i[:6] == 'https:':
+                shop_urls_s.append(i)
+            else:
+                shop_urls_s.append('https:' + i)
+        jd_item['shop_urls'] = shop_urls_s
+
+        pic_urls = response.xpath('//li[@class="gl-item"]/div/div[@class="p-img"]/a/img/@source-data-lazy-img').getall()
+        for i in pic_urls:
+            pic_urls_s.append('https:' + i)
+        for i in range(len(jd_item['shop_urls'])):
+            search_name.append(self.search_name)
+        jd_item['pic_urls'] = pic_urls_s
+        jd_item['search_name'] = search_name
+        yield jd_item

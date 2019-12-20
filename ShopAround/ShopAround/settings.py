@@ -23,8 +23,13 @@ ROBOTSTXT_OBEY = False
 ua = UserAgent()
 USER_AGENT = ua.random
 ITEM_PIPELINES = {
-   'ShopAround.MySQLPipeline.MySQLPipeline': 300,
+   'ShopAround.jdPipeline.JdPipeline': 300,
+   'ShopAround.yhdPipeline.YhdPipeline': 350,
+   'ShopAround.pipelines.ShoparoundPipeline': None,
 }
+
+COMMANDS_MODULE = 'ShopAround.commands'
+
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
 #CONCURRENT_REQUESTS = 32
 
