@@ -25,6 +25,7 @@ USER_AGENT = ua.random
 ITEM_PIPELINES = {
    'ShopAround.jdPipeline.JdPipeline': 300,
    'ShopAround.yhdPipeline.YhdPipeline': 350,
+   'ShopAround.kaolaoPipeline.KaolaoPipeline': 400,
    'ShopAround.pipelines.ShoparoundPipeline': None,
 }
 
