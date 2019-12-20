@@ -22,7 +22,7 @@ search_name varchar(20)
 -- 一号店
 create table yhd(
 yhd_id int primary key auto_increment,
-yhd_id varchar(10) default '一号店',
+yhd_station varchar(10) default '一号店',
 store_names varchar(200),
 shop_names varchar(100),
 prices float(8,2),
@@ -31,10 +31,10 @@ pic_urls varchar(1000),
 search_name varchar(20)
 );
 
--- 天猫
-create table tmall(
-tmall_id int primary key auto_increment,
-tmall_station varchar(10) default '天猫',
+-- 考拉
+create table kaolao(
+kaolao_id int primary key auto_increment,
+kaolao_station varchar(10) default '考拉',
 store_names varchar(200),
 shop_names varchar(100),
 prices float(8,2),
@@ -43,8 +43,9 @@ pic_urls varchar(1000),
 search_name varchar(20)
 );
 
-# select * from jd;
+select * from jd;
+select * from kaolao;
+select * from yhd;
 -- 清空表数据
 # truncate jd;
--- 删除库名
-# drop database shoparound;
+#drop database shoparound;
