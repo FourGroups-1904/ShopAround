@@ -7,3 +7,6 @@
 商品图片链接--->pic_urls
 
 下载环境包  pip install -r requirement.txt
+
+运行之前 在config.py 文件中修改MySQL用户信息
+main 文件运行爬虫
