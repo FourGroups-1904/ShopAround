@@ -9,7 +9,6 @@ import scrapy
 
 
 class JdItem(scrapy.Item):
-    store_names = scrapy.Field()
     shop_names = scrapy.Field()
     prices = scrapy.Field()
     shop_urls = scrapy.Field()
@@ -18,7 +17,6 @@ class JdItem(scrapy.Item):
 
 
 class YhdItem(scrapy.Item):
-    store_names = scrapy.Field()
     shop_names = scrapy.Field()
     prices = scrapy.Field()
     shop_urls = scrapy.Field()
@@ -27,7 +25,6 @@ class YhdItem(scrapy.Item):
 
 
 class KaolaoItem(scrapy.Item):
-    store_names = scrapy.Field()
     shop_names = scrapy.Field()
     prices = scrapy.Field()
     shop_urls = scrapy.Field()

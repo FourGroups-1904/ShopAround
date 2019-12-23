@@ -2,7 +2,6 @@
 # -*- encoding: utf-8 -*-
 
 from scrapy import cmdline
-
 # cmdline.execute('scrapy crawl jd'.split())
 # cmdline.execute('scrapy crawl yhd'.split())
 # cmdline.execute('scrapy crawl kaolao'.split())

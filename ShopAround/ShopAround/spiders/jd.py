@@ -4,24 +4,24 @@ from ShopAround.items import JdItem
 
 
 class JdSpider(scrapy.Spider):
+    start_urls = []
     name = 'jd'
-    allowed_domains = ['search.jd.com/']
+    allowed_domains = ['search.jd.com']
+
     search_name = input('你输入想要查询的京东商品名称: ')
     pages = int(input('你输入想要爬取京东的商品页数: '))
-    if pages == 1:
-        start_urls = [f'https://search.jd.com/Search?keyword={search_name}&enc=utf-8&page=1']
-    else:
-        for page in range(1, pages):
-            page = 1 + (page - 1) * 2
-            start_urls = [f'https://search.jd.com/Search?keyword={search_name}&enc=utf-8&page={page}']
+    for page in range(1, pages):
+        page = 1 + (page - 1) * 2
+        start_urls_s = [f'https://search.jd.com/Search?keyword={search_name}&enc=utf-8&page={page}']
+        start_urls.extend(start_urls_s)
+
     def parse(self, response):
         search_name = []
         pic_urls_s = []
         shop_urls_s = []
         jd_item = JdItem()
-        jd_item['store_names'] = response.xpath('//li[@class="gl-item"]/div/div[@class="p-shop"]/span/a/@title').getall()
         jd_item['shop_names'] = response.xpath(
-            '//li[@class="gl-item"]/div/div[@class="p-name p-name-type-2"]/a/em/text()').getall()
+            '//li[@class="gl-item"]/div/div[@class="p-name p-name-type-2"]/a/@title').getall()
         jd_item['prices'] = response.xpath('//li[@class="gl-item"]/div/div[@class="p-price"]/strong/i/text()').getall()
         shop_urls = response.xpath('//li[@class="gl-item"]/div/div[@class="p-img"]/a/@href').getall()
         for i in shop_urls:

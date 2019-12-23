@@ -7,6 +7,8 @@
 import random
 from scrapy import signals
 from ShopAround.ips import ips
+
+
 class MyProxyMiddleware(object):
     """
     设置IP代理
@@ -17,6 +19,8 @@ class MyProxyMiddleware(object):
     def process_request(self, request, spider):
         request.meta['proxy'] = random.choice(ips)
         print('---------', request)
+
+
 class ShoparoundSpiderMiddleware(object):
     # Not all methods need to be defined. If a method is not defined,
     # scrapy acts as if the spider middleware does not modify the
